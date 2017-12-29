@@ -1,11 +1,15 @@
 package com.kenforum.service;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gson.Gson;
 import com.kenforum.entity.Topic;
+import com.kenforum.entity.User;
 import com.kenforum.repository.TopicRepository;
-import jdk.nashorn.internal.ir.annotations.Immutable;
+import com.kenforum.request.TopicRequest;
 import org.springframework.stereotype.Service;
+import rx.Observable;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -17,12 +21,22 @@ public class TopicService {
         this.topicRepository = topicRepository;
     }
 
-    public List<Topic> list() {
-        return ImmutableList.copyOf(topicRepository.findAll());
+    public Observable<Topic> list() {
+        return Observable.from(ImmutableList.copyOf(topicRepository.findAll()));
     }
 
-    public Topic create(final Topic topic) {
-        return topicRepository.save(topic);
+    public Observable<Topic> create(final TopicRequest request) {
+        Topic topic = new Topic();
+        topic.setCreationDate(new Date());
+        topic.setTitle(request.getTitle());
+        topic.setDescription(request.getDescription());
+        topic.setUser(new Gson().fromJson(request.getUser(), User.class));
+
+        return Observable.just(topicRepository.save(topic));
+    }
+
+    public Observable<Topic> get(final Long id) {
+        return Observable.just(topicRepository.findOne(id));
     }
 
     public void delete(final Long id) {

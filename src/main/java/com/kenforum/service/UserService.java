@@ -5,6 +5,7 @@ import com.kenforum.entity.User;
 import com.kenforum.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import rx.Observable;
 
 import java.util.List;
 
@@ -18,12 +19,12 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public List<User> listAll() {
-        return ImmutableList.copyOf(userRepository.findAll());
+    public Observable<User> listAll() {
+        return Observable.from(ImmutableList.copyOf(userRepository.findAll()));
     }
 
-    public List<User> getUser(String email, String password) {
-        return userRepository.findByEmailAndPassword(email, password);
+    public Observable<User> getUser(String email, String password) {
+        return Observable.from(userRepository.findByEmailAndPassword(email, password));
     }
 
 }
