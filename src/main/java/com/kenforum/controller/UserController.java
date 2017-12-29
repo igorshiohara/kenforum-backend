@@ -24,7 +24,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @RequestMapping("/api/users")
+    @RequestMapping(value = "/api/users", method = RequestMethod.GET)
     public List<User> listAllUsers() {
         return userService.listAll()
                 .doOnCompleted( () -> LOGGER.info("Retrieved all users successfully."))

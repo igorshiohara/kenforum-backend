@@ -22,7 +22,7 @@ public class TopicController {
         this.topicService = topicService;
     }
 
-    @RequestMapping("/api/topics")
+    @RequestMapping(value = "/api/topics", method = RequestMethod.GET)
     public ResponseEntity list() {
 
         List<Topic> topics = topicService.list()
