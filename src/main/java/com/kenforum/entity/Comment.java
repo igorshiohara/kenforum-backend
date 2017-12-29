@@ -22,6 +22,7 @@ public class Comment {
     private Date creationDate;
 
     @ManyToOne
+    @JoinColumn(name="TOPIC_ID")
     private Topic topic;
 
     public Long getId() {

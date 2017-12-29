@@ -33,7 +33,7 @@ public class CommentService {
     public Observable<Comment> create(final CommentRequest request) {
         Comment comment = new Comment();
         comment.setCreationDate(new Date());
-        comment.setComment(comment.getComment());
+        comment.setComment(request.getComment());
         comment.setUser(userRepository.findOne(request.getUserId()));
         comment.setTopic(topicRepository.findOne(request.getTopicId()));
 
@@ -42,6 +42,11 @@ public class CommentService {
 
     public void delete(final Long id) {
         commentRepository.delete(id);
+    }
+
+    public Observable<Comment> findByTopicId(final Long topicId) {
+        Topic topic = topicRepository.findOne(topicId);
+        return Observable.from(commentRepository.findByTopic(topic));
     }
 
 }

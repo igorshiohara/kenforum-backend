@@ -21,9 +21,6 @@ public class Topic {
 
     private String description;
 
-    @OneToMany
-    private List<Comment> comments;
-
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
 
@@ -59,14 +56,6 @@ public class Topic {
         this.description = description;
     }
 
-    public List<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }
-
     public Date getCreationDate() {
         return creationDate;
     }
@@ -84,13 +73,12 @@ public class Topic {
                 Objects.equal(user, topic.user) &&
                 Objects.equal(title, topic.title) &&
                 Objects.equal(description, topic.description) &&
-                Objects.equal(comments, topic.comments) &&
                 Objects.equal(creationDate, topic.creationDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id, user, title, description, comments, creationDate);
+        return Objects.hashCode(id, user, title, description, creationDate);
     }
 
     @Override
@@ -100,7 +88,6 @@ public class Topic {
                 .add("user", user)
                 .add("title", title)
                 .add("description", description)
-                .add("comments", comments)
                 .add("creationDate", creationDate)
                 .toString();
     }

@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -29,7 +28,7 @@ public class TopicController {
         List<Topic> topics = topicService.list()
                 .doOnCompleted( () -> LOGGER.info("Success retrieving all topics."))
                 .doOnError( (err) -> LOGGER.error("Error when trying to find topics: ", err))
-                .toList().toBlocking().single();
+                .toList().toBlocking().first();
 
         if (topics.size() > 0) {
             return ResponseEntity.ok(topics);
