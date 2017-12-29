@@ -21,6 +21,9 @@ public class Comment {
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
 
+    @ManyToOne
+    private Topic topic;
+
     public Long getId() {
         return id;
     }
@@ -53,6 +56,14 @@ public class Comment {
         this.creationDate = creationDate;
     }
 
+    public Topic getTopic() {
+        return topic;
+    }
+
+    public void setTopic(Topic topic) {
+        this.topic = topic;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -61,12 +72,13 @@ public class Comment {
         return Objects.equal(id, comment1.id) &&
                 Objects.equal(user, comment1.user) &&
                 Objects.equal(comment, comment1.comment) &&
-                Objects.equal(creationDate, comment1.creationDate);
+                Objects.equal(creationDate, comment1.creationDate) &&
+                Objects.equal(topic, comment1.topic);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id, user, comment, creationDate);
+        return Objects.hashCode(id, user, comment, creationDate, topic);
     }
 
     @Override
@@ -76,6 +88,7 @@ public class Comment {
                 .add("user", user)
                 .add("comment", comment)
                 .add("creationDate", creationDate)
+                .add("topic", topic)
                 .toString();
     }
 }

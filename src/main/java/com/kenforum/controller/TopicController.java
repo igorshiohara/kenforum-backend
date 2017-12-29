@@ -48,13 +48,13 @@ public class TopicController {
     }
 
     @RequestMapping(value = "/api/topic", method = RequestMethod.POST)
-    public ResponseEntity create(@RequestBody TopicRequest request) {
+    public ResponseEntity<Topic> create(@RequestBody TopicRequest request) {
         Topic created = topicService.create(request)
                 .doOnCompleted( () -> LOGGER.info("Topic created successfully."))
                 .doOnError( (err) -> LOGGER.error("An error occurred when trying to create a topic.", err))
                 .toBlocking().single();
         if (created != null) {
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+            return new ResponseEntity<>(created, HttpStatus.CREATED);
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
